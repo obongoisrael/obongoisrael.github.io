@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Israel Omondi Obongo, data analyst in Nairobi. SQL, Python, Power BI and Excel projects.">
+<meta property="og:title" content="Israel Omondi Obongo, Data Analyst">
+<meta property="og:description" content="Data analyst in Nairobi. Projects in churn analysis, food price trends and e-commerce sales.">
+<meta property="og:image" content="https://obongoisrael.github.io/data-analytics.jpg">
+<link rel="icon" href="data-analytics.jpg">
+<title>Israel Omondi Obongo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: mobile-first, one page visible at a time (Home, Projects, Experience, Skills, Contact). Phones get a bottom tab bar; wider screens get tabs in the top bar. Every block is a card on a soft grey canvas. */
+:root {
+  --bg: #EEF2F0;
+  --card: #FFFFFF;
+  --tint: #F5F8F6;
+  --ink: #15211C;
+  --muted: #5B6862;
+  --line: #E1E7E3;
+  --accent: #0F7A55;
+  --accent-soft: #E3F2EA;
+  --warm: #C26A0A;
+  --bar: #CBD8D0;
+  --shadow: 0 1px 2px rgba(21,33,28,.05), 0 8px 24px -12px rgba(21,33,28,.12);
+  --font: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --tabbar-h: 64px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B110E; --card: #141C18; --tint: #19231E; --ink: #E7EEEA; --muted: #9AA9A1; --line: #25322C;
+    --accent: #4FC48F; --accent-soft: #163527; --warm: #EFA54E; --bar: #36473E;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B110E; --card: #141C18; --tint: #19231E; --ink: #E7EEEA; --muted: #9AA9A1; --line: #25322C;
+  --accent: #4FC48F; --accent-soft: #163527; --warm: #EFA54E; --bar: #36473E;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 14.5px; line-height: 1.6; padding-inline: 16px; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+.wrap { max-width: 1100px; margin: 0 auto; }
+main.wrap { padding-block: 18px calc(var(--tabbar-h) + 28px + env(safe-area-inset-bottom, 0px)); }
+h1, h2, h3, h4 { margin: 0; line-height: 1.2; text-wrap: balance; font-weight: 700; letter-spacing: -0.015em; }
+p, ul { margin: 0; }
+a { color: var(--accent); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* Pages */
+.page { display: grid; gap: 16px; animation: fadein .25s ease both; }
+.page[hidden] { display: none; }
+@keyframes fadein { from { opacity: .4; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.page-head { display: grid; gap: 6px; padding-inline: 4px; }
+.page-head h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.02em; }
+.page-head p { color: var(--muted); max-width: 62ch; }
+
+/* Cards */
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: 20px; }
+.label { display: inline-block; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+/* Top bar */
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--card); border-bottom: 1px solid var(--line); margin-inline: -16px; padding: 12px 16px; }
+.topbar .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 16px; color: var(--ink); text-decoration: none; }
+.brand-img { width: 34px; height: 34px; border-radius: 9px; object-fit: cover; object-position: 45% 50%; border: 1px solid var(--line); flex: none; }
+.top-tabs { display: none; list-style: none; padding: 0; gap: 4px; }
+.top-tabs a { display: block; padding: 6px 11px; border-radius: 9px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: 14px; }
+.top-tabs a:hover { background: var(--tint); color: var(--ink); }
+.top-tabs a[aria-current="page"] { background: var(--accent-soft); color: var(--accent); }
+.hire { font-size: 13px; font-weight: 700; padding: 7px 12px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); text-decoration: none; white-space: nowrap; }
+
+/* Bottom tab bar (phones) */
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); box-shadow: 0 -6px 20px -14px rgba(0,0,0,.3); }
+.tabbar ul { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); height: var(--tabbar-h); max-width: 560px; margin: 0 auto; }
+.tabbar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; height: 100%; color: var(--muted); text-decoration: none; font-size: 11px; font-weight: 600; }
+.tabbar svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.tabbar a[aria-current="page"] { color: var(--accent); }
+.tabbar a[aria-current="page"] svg { background: var(--accent-soft); border-radius: 999px; padding: 3px 14px; width: 52px; height: 28px; }
+
+/* Buttons & chips */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 18px; border-radius: 12px; font: 600 14px var(--font); text-decoration: none; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--card); }
+.btn.small { min-height: 40px; padding: 8px 14px; font-size: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; list-style: none; padding: 0; }
+.chips li { font-size: 12.5px; font-weight: 600; padding: 5px 11px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+
+/* Home */
+.intro { display: grid; gap: 14px; }
+.avatar { width: 72px; height: 72px; border-radius: 18px; object-fit: cover; object-position: 45% 50%; background: var(--tint); border: 1px solid var(--line); display: block; }
+.intro h1 { font-size: clamp(26px, 4.2vw, 38px); font-weight: 800; letter-spacing: -0.03em; }
+.intro h1 span { display: block; color: var(--accent); font-size: .55em; font-weight: 700; letter-spacing: -0.01em; margin-top: 8px; }
+.intro .lede { font-size: 15px; color: var(--muted); max-width: 52ch; }
+.actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.actions .btn.primary { grid-column: 1 / -1; }
+.stats { display: grid; gap: 12px; }
+.stats h2 { font-size: 16px; }
+.stat { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; padding: 14px; border-radius: 12px; background: var(--tint); border: 1px solid var(--line); }
+.stat b { font-size: 21px; font-weight: 800; color: var(--accent); min-width: 3.3em; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.stat p { font-size: 13.5px; line-height: 1.45; }
+.stat small { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; font-weight: 600; }
+.jump { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.jump a { display: grid; gap: 4px; padding: 16px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); text-decoration: none; color: var(--ink); }
+.jump a b { font-size: 14.5px; }
+.jump a span { font-size: 13px; color: var(--muted); }
+.jump a:hover { border-color: var(--accent); }
+
+/* Projects */
+.project { padding: 0; overflow: hidden; }
+.p-head { display: grid; gap: 4px; padding: 18px 20px 16px; border-bottom: 1px solid var(--line); }
+.p-head .question { font-size: 13.5px; font-weight: 600; color: var(--warm); }
+.p-head h2 { font-size: 18px; font-weight: 800; }
+.p-body { display: grid; }
+.p-body > * { min-width: 0; }
+.p-text { padding: 18px 20px; display: grid; gap: 16px; align-content: start; }
+.p-text .desc { color: var(--muted); }
+.p-text h3 { font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; margin-bottom: 8px; }
+.findings { list-style: none; padding: 0; display: grid; gap: 9px; }
+.findings li { position: relative; padding-left: 20px; font-size: 14px; }
+.findings li::before { content: ""; position: absolute; left: 0; top: .55em; width: 9px; height: 9px; border-radius: 3px; background: var(--accent); }
+.p-chart { background: var(--tint); border-top: 1px solid var(--line); padding: 18px 20px; display: grid; align-content: start; gap: 2px; margin: 0; }
+.p-chart h3 { font-size: 14.5px; font-weight: 700; }
+.p-chart .sub { font-size: 12.5px; color: var(--muted); }
+.p-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 20px; border-top: 1px solid var(--line); }
+
+.bars, .dbars { display: grid; gap: 12px; margin-top: 16px; }
+.bar, .drow { display: grid; grid-template-columns: 5.6em 1fr; gap: 10px; align-items: center; font-size: 13.5px; font-weight: 600; }
+.bar > *, .drow > * { min-width: 0; }
+.bar small { display: block; font-weight: 500; color: var(--muted); font-size: 11.5px; }
+.track, .dtrack { position: relative; height: 30px; background: var(--card); border-radius: 8px; border: 1px solid var(--line); overflow: hidden; }
+.fill { height: 100%; background: var(--bar); display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 12.5px; font-weight: 700; color: var(--ink); min-width: 3.4em; font-variant-numeric: tabular-nums; }
+.fill.hl { background: var(--accent); color: var(--card); }
+.dtrack::after { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: var(--muted); opacity: .5; }
+.dfill { position: absolute; top: 0; height: 100%; display: flex; align-items: center; font-size: 12.5px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--card); }
+.dfill.up { left: 50%; background: var(--warm); justify-content: flex-end; padding-right: 6px; }
+.dfill.down { right: 50%; background: var(--accent); justify-content: flex-start; padding-left: 6px; }
+.daxis { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--muted); margin-left: calc(5.6em + 10px); margin-top: 6px; }
+.chart-note { font-size: 12px; color: var(--muted); margin-top: 14px; line-height: 1.5; }
+.also { display: grid; gap: 12px; }
+.also p { color: var(--muted); font-size: 14.5px; }
+.also b { color: var(--ink); }
+
+/* Experience */
+.role { display: grid; gap: 16px; }
+.role-media { margin: 0; border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; max-width: 100%; background: var(--tint); border: 1px solid var(--line); }
+.role-media img, .role-media svg { display: block; width: 100%; height: 100%; object-fit: cover; }
+.role .date { display: inline-block; margin-bottom: 10px; }
+.ill .i-bg { fill: var(--tint); }
+.ill .i-card { fill: var(--card); stroke: var(--line); }
+.ill .i-soft { fill: var(--accent-soft); }
+.ill .i-acc { fill: var(--accent); }
+.ill .i-warm { fill: var(--warm); }
+.ill .i-bar { fill: var(--bar); }
+.ill .i-mut { fill: var(--muted); opacity: .45; }
+.ill .i-line { stroke: var(--line); fill: none; }
+.ill .i-stroke { stroke: var(--accent); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.date { justify-self: start; align-self: start; font-size: 12.5px; font-weight: 700; padding: 5px 11px; border-radius: 999px; background: var(--tint); border: 1px solid var(--line); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.date.now { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.role h2 { font-size: 17px; font-weight: 700; }
+.role .org { color: var(--accent); font-weight: 600; font-size: 14.5px; margin-top: 2px; }
+.role ul { padding-left: 18px; display: grid; gap: 6px; font-size: 14px; }
+.role ul li::marker { color: var(--accent); }
+.subhead { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 8px 4px 0; }
+
+/* Skills */
+.skills { display: grid; gap: 14px; }
+.skill { display: grid; gap: 12px; }
+.skill h2 { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.skill h2::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--accent); flex: none; }
+.skill .chips li { background: var(--tint); color: var(--ink); border: 1px solid var(--line); font-weight: 500; }
+
+/* Contact */
+.lines { display: grid; gap: 12px; }
+.line { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.line > div { min-width: 0; }
+.line small { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.line .val { font-size: 14.5px; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; user-select: all; text-decoration: none; }
+a.val { color: var(--accent); }
+.copy { flex: none; min-height: 40px; font: 600 13px var(--font); padding: 8px 14px; border-radius: 10px; border: 1px solid var(--line); background: var(--tint); color: var(--ink); cursor: pointer; }
+.copy.done { color: var(--accent); border-color: var(--accent); }
+.avail { display: grid; gap: 10px; }
+.avail p { color: var(--muted); }
+
+/* Next-page link */
+.next { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 14px; border: 1px dashed var(--line); text-decoration: none; color: var(--ink); }
+.next span { font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+.next b { font-size: 15px; color: var(--accent); }
+.next:hover { border-color: var(--accent); }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; padding-top: 24px; }
+
+/* Larger screens */
+@media (min-width: 600px) {
+  body { padding-inline: 24px; font-size: 15px; }
+  .topbar { margin-inline: -24px; padding: 14px 24px; }
+  .top-tabs { display: flex; }
+  .hire { display: none; }
+  .tabbar { display: none; }
+  main.wrap { padding-block: 28px 48px; }
+  .page { gap: 22px; }
+  .page-head h1 { font-size: 28px; }
+  .card { padding: 24px; border-radius: 18px; }
+  .home-grid { display: grid; gap: 22px; }
+  .home-grid > * { min-width: 0; }
+  .actions { display: flex; flex-wrap: wrap; }
+  .project { padding: 0; }
+  .p-head, .p-text, .p-chart, .p-foot { padding-inline: 28px; }
+  .p-body { grid-template-columns: 1.15fr 1fr; }
+  .p-chart { border-top: 0; border-left: 1px solid var(--line); padding-block: 24px; }
+  .p-text { padding-block: 24px; }
+  .role { grid-template-columns: 210px 1fr; gap: 24px; align-items: start; }
+  .role-media { aspect-ratio: 4 / 3; }
+  .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bar, .drow { grid-template-columns: 6.5em 1fr; }
+  .daxis { margin-left: calc(6.5em + 10px); }
+  .contact-grid { display: grid; gap: 22px; align-items: start; }
+}
+@media (min-width: 900px) {
+  .home-grid { grid-template-columns: 1.25fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr 1fr; }
+  .jump { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width: 1000px) { .skills { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 599px) { .home-grid, .contact-grid { display: grid; gap: 16px; } }
+@media (prefers-reduced-motion: no-preference) {
+  .page:not([hidden]) .fill { transform-origin: left; animation: grow .8s cubic-bezier(.2,.7,.2,1) both; }
+  .page:not([hidden]) .dfill.up { transform-origin: left; animation: grow .8s cubic-bezier(.2,.7,.2,1) both; }
+  .page:not([hidden]) .dfill.down { transform-origin: right; animation: grow .8s cubic-bezier(.2,.7,.2,1) both; }
+  @keyframes grow { from { transform: scaleX(.2); } to { transform: scaleX(1); } }
+}
+@media (min-width: 600px) and (max-width: 719px) { .brand-name { display: none; } }
+@media (prefers-reduced-motion: reduce) { .page { animation: none; } }
+</style>
+<style>html{color-scheme:light} body{margin:0} :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)} img{max-width:100%} [hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#home" data-page="home"><img class="brand-img" src="data-analytics.jpg" alt=""><span class="brand-name">Israel Obongo</span></a>
+    <ul class="top-tabs">
+      <li><a href="#home" data-page="home">Home</a></li>
+      <li><a href="#projects" data-page="projects">Projects</a></li>
+      <li><a href="#experience" data-page="experience">Experience</a></li>
+      <li><a href="#skills" data-page="skills">Skills</a></li>
+      <li><a href="#contact" data-page="contact">Contact</a></li>
+    </ul>
+    <a class="hire" href="#contact" data-page="contact">Hire me</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HOME -->
+  <div class="page" id="page-home" data-name="home">
+    <div class="home-grid">
+      <section class="card intro" aria-labelledby="name-h">
+        <img class="avatar" src="data-analytics.jpg" alt="Data analytics dashboard on a laptop">
+        <span class="label">Data Analyst · Nairobi, Kenya</span>
+        <h1 id="name-h">Israel Omondi Obongo<span>I turn raw data into decisions.</span></h1>
+        <p class="lede">I clean messy data, query it with SQL, analyse it in Python and build dashboards that sales, operations and finance teams can act on.</p>
+        <ul class="chips" aria-label="Main tools"><li>SQL</li><li>Python</li><li>Power BI</li><li>Excel</li><li>Tableau</li><li>Looker Studio</li></ul>
+        <div class="actions">
+          <a class="btn primary" href="#projects" data-page="projects">See my projects</a>
+          <a class="btn" href="https://github.com/obongoisrael" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="#contact" data-page="contact">Contact me</a>
+        </div>
+      </section>
+      <aside class="card stats" aria-labelledby="stats-h">
+        <span class="label">Highlights</span>
+        <h2 id="stats-h">Findings from my projects</h2>
+        <div class="stat"><b>0.83</b><p>ROC-AUC of my churn-risk model across 7,000 customers<small>Customer Churn Analysis</small></p></div>
+        <div class="stat"><b>+72%</b><p>Rise in average sugar prices from 2021 to the 2023 peak<small>Kenya Food Price Trends</small></p></div>
+        <div class="stat"><b>39%</b><p>Revenue share from the top 10% of repeat customers<small>E-commerce Sales Analysis</small></p></div>
+      </aside>
+    </div>
+    <nav class="jump" aria-label="Explore">
+      <a href="#projects" data-page="projects"><b>Projects</b><span>3 data case studies</span></a>
+      <a href="#experience" data-page="experience"><b>Experience</b><span>Roles &amp; education</span></a>
+      <a href="#skills" data-page="skills"><b>Skills</b><span>SQL, Python, BI</span></a>
+      <a href="#contact" data-page="contact"><b>Contact</b><span>Email, phone, GitHub</span></a>
+    </nav>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="page" id="page-projects" data-name="projects" hidden>
+    <div class="page-head">
+      <span class="label">Portfolio</span>
+      <h1>Projects</h1>
+      <p>Each project starts with a business question and ends with recommendations. All three use synthetic datasets modelled on real public data.</p>
+    </div>
+
+    <article class="card project">
+      <div class="p-head"><span class="question">Why do customers leave, and who leaves next?</span><h2>Customer Churn Analysis</h2></div>
+      <div class="p-body">
+        <div class="p-text">
+          <p class="desc">Found the main drivers of churn across 7,000 telecom customers with SQL, then scored every customer by churn risk with a logistic regression to give a retention team a focused call list.</p>
+          <div>
+            <h3>Key findings</h3>
+            <ul class="findings">
+              <li>Overall churn is 26.1%. Month-to-month customers churn at 40.7%, against 2.6% on two-year contracts.</li>
+              <li>First-year customers churn at 48.4%. After four years, only 3.4% do.</li>
+              <li>Recommended annual-plan offers, onboarding check-ins and auto-pay over electronic checks.</li>
+            </ul>
+          </div>
+        </div>
+        <figure class="p-chart">
+          <h3>Actual churn by predicted risk</h3>
+          <p class="sub">Share of each group that churned</p>
+          <div class="bars">
+            <div class="bar"><span>High<small class="num">662</small></span><div class="track"><div class="fill hl" style="width:70%">70%</div></div></div>
+            <div class="bar"><span>Medium<small class="num">2,067</small></span><div class="track"><div class="fill" style="width:43%">43%</div></div></div>
+            <div class="bar"><span>Low<small class="num">4,271</small></span><div class="track"><div class="fill" style="width:11%">11%</div></div></div>
+          </div>
+          <p class="chart-note">Scale 0–100%. Customer counts under each label. ROC-AUC 0.83 (random forest 0.81).</p>
+        </figure>
+      </div>
+      <div class="p-foot"><ul class="chips"><li>SQL</li><li>pandas</li><li>scikit-learn</li><li>Power BI</li></ul><a class="btn small" href="https://github.com/obongoisrael/customer-churn-Analysis" target="_blank" rel="noopener">View on GitHub</a></div>
+    </article>
+
+    <article class="card project">
+      <div class="p-head"><span class="question">Where do Kenyan households pay the most for food?</span><h2>Kenya Food Price Trends, 2021–2025</h2></div>
+      <div class="p-body">
+        <div class="p-text">
+          <p class="desc">Combined 10 messy county files (4,730 raw rows) of monthly prices for 8 staple foods into one clean table, then analysed trends, county gaps, seasonality and volatility.</p>
+          <div>
+            <h3>Key findings</h3>
+            <ul class="findings">
+              <li>2023 was the peak for every staple. By 2025 prices were still about 19% above 2021.</li>
+              <li>Maize peaks in June, before the long-rains harvest, and is cheapest in January.</li>
+              <li>Built an Excel workbook of live formulas with dropdowns for any commodity, county or year.</li>
+            </ul>
+          </div>
+        </div>
+        <figure class="p-chart">
+          <h3>County prices vs national average, 2025</h3>
+          <p class="sub">Percent above or below average</p>
+          <div class="dbars">
+            <div class="drow"><span>Turkana</span><div class="dtrack"><div class="dfill up" style="width:41.7%">+25%</div></div></div>
+            <div class="drow"><span>Garissa</span><div class="dtrack"><div class="dfill up" style="width:25%">+15%</div></div></div>
+            <div class="drow"><span>Nakuru</span><div class="dtrack"><div class="dfill down" style="width:15%">−9%</div></div></div>
+            <div class="drow"><span>Uasin Gishu</span><div class="dtrack"><div class="dfill down" style="width:21.7%">−13%</div></div></div>
+          </div>
+          <div class="daxis"><span>−30%</span><span>0</span><span>+30%</span></div>
+          <p class="chart-note">Remote arid counties pay the most; the grain basket pays the least.</p>
+        </figure>
+      </div>
+      <div class="p-foot"><ul class="chips"><li>pandas</li><li>Matplotlib</li><li>Excel</li><li>Tableau</li></ul><a class="btn small" href="https://github.com/obongoisrael/Kenya-food-price-trend" target="_blank" rel="noopener">View on GitHub</a></div>
+    </article>
+
+    <article class="card project">
+      <div class="p-head"><span class="question">How fast is revenue growing, and who drives it?</span><h2>E-commerce Sales Performance</h2></div>
+      <div class="p-body">
+        <div class="p-text">
+          <p class="desc">Analysed three years of online sales (105,000 orders across four related tables) with SQL, and presented the results as a one-page executive report and a Looker Studio dashboard.</p>
+          <div>
+            <h3>Key findings</h3>
+            <ul class="findings">
+              <li>Black Friday season (November–December) brings 26% of yearly revenue.</li>
+              <li>2,659 frequent buyers hadn't ordered in about 9 months, holding 15% of revenue.</li>
+              <li>Used JOINs, CTEs, LAG() for growth and NTILE() for RFM customer segments.</li>
+            </ul>
+          </div>
+        </div>
+        <figure class="p-chart">
+          <h3>Annual revenue</h3>
+          <p class="sub">KES millions, net of discounts</p>
+          <div class="bars">
+            <div class="bar"><span>2024</span><div class="track"><div class="fill" style="width:76.7%">230M</div></div></div>
+            <div class="bar"><span>2025</span><div class="track"><div class="fill hl" style="width:93.7%">281M</div></div></div>
+          </div>
+          <p class="chart-note">Scale 0–300M. Up 22%, from more orders and customers; average order value held at about KES 7,400.</p>
+        </figure>
+      </div>
+      <div class="p-foot"><ul class="chips"><li>SQL</li><li>Window functions</li><li>RFM</li><li>Looker Studio</li></ul><a class="btn small" href="https://github.com/obongoisrael/Ecommerce-Sale-Analysis" target="_blank" rel="noopener">View on GitHub</a></div>
+    </article>
+
+    <div class="card also">
+      <p><b>Also on GitHub:</b> a Python phishing-detection script that scores links and messages using features such as suspicious domains, URL length and keywords.</p>
+      <a class="btn small" href="https://github.com/obongoisrael/Phishing_detection-script" target="_blank" rel="noopener">View on GitHub</a>
+    </div>
+
+    <a class="next" href="#experience" data-page="experience"><span>Next page</span><b>Experience →</b></a>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="page" id="page-experience" data-name="experience" hidden>
+    <div class="page-head">
+      <span class="label">Career</span>
+      <h1>Experience</h1>
+      <p>Data roles in Nairobi, from reporting intern to analyst.</p>
+    </div>
+
+    <section class="card role">
+      <figure class="role-media"><svg class="ill" viewBox="0 0 200 150" role="img" aria-label="Illustration of a sales and inventory dashboard">
+<rect class="i-bg" width="200" height="150"/>
+<rect class="i-card" x="12" y="12" width="176" height="126" rx="10"/>
+<rect class="i-soft" x="12.5" y="12.5" width="175" height="16" rx="9"/>
+<circle class="i-acc" cx="24" cy="20.5" r="3"/><circle class="i-bar" cx="34" cy="20.5" r="3"/><circle class="i-bar" cx="44" cy="20.5" r="3"/>
+<rect class="i-bg" x="22" y="36" width="48" height="26" rx="5"/><rect class="i-acc" x="28" y="42" width="22" height="6" rx="2"/><rect class="i-mut" x="28" y="52" width="32" height="3" rx="1.5"/>
+<rect class="i-bg" x="76" y="36" width="48" height="26" rx="5"/><rect class="i-warm" x="82" y="42" width="18" height="6" rx="2"/><rect class="i-mut" x="82" y="52" width="32" height="3" rx="1.5"/>
+<rect class="i-bg" x="130" y="36" width="48" height="26" rx="5"/><rect class="i-acc" x="136" y="42" width="26" height="6" rx="2"/><rect class="i-mut" x="136" y="52" width="32" height="3" rx="1.5"/>
+<rect class="i-bg" x="22" y="70" width="96" height="58" rx="5"/>
+<rect class="i-bar" x="30" y="104" width="10" height="18" rx="2"/><rect class="i-bar" x="45" y="94" width="10" height="28" rx="2"/><rect class="i-bar" x="60" y="98" width="10" height="24" rx="2"/><rect class="i-bar" x="75" y="86" width="10" height="36" rx="2"/><rect class="i-acc" x="90" y="78" width="10" height="44" rx="2"/>
+<rect class="i-bg" x="124" y="70" width="54" height="58" rx="5"/>
+<polyline class="i-stroke" points="130,116 140,106 150,110 160,92 172,84"/><circle class="i-acc" cx="172" cy="84" r="3.5"/>
+</svg></figure>
+      <div>
+        <span class="date now">Mar 2025 – Present</span>
+        <h2>Data Analyst</h2>
+        <p class="org">Fenan Ltd · Nairobi</p>
+        <ul style="margin-top:12px">
+          <li>Build and maintain Power BI dashboards tracking sales, inventory and customer KPIs.</li>
+          <li>Write SQL queries and views that feed daily performance reports to management.</li>
+          <li>Analyse customer purchase patterns in Python to guide targeted promotions.</li>
+          <li>Work with finance and marketing to define KPIs and standardise metric definitions.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="card role">
+      <figure class="role-media"><svg class="ill" viewBox="0 0 200 150" role="img" aria-label="Illustration of a loan portfolio report with a chart and table">
+<rect class="i-bg" width="200" height="150"/>
+<rect class="i-card" x="12" y="12" width="176" height="126" rx="10"/>
+<rect class="i-mut" x="24" y="24" width="60" height="5" rx="2.5"/>
+<circle cx="58" cy="84" r="28" fill="none" stroke="var(--bar)" stroke-width="13"/>
+<circle cx="58" cy="84" r="28" fill="none" stroke="var(--accent)" stroke-width="13" stroke-dasharray="114 176" transform="rotate(-90 58 84)"/>
+<circle cx="58" cy="84" r="28" fill="none" stroke="var(--warm)" stroke-width="13" stroke-dasharray="22 176" stroke-dashoffset="-114" transform="rotate(-90 58 84)"/>
+<g>
+<rect class="i-soft" x="102" y="40" width="76" height="12" rx="3"/>
+<circle class="i-acc" cx="110" cy="64" r="3"/><rect class="i-mut" x="118" y="62" width="34" height="4" rx="2"/><rect class="i-bar" x="158" y="62" width="18" height="4" rx="2"/>
+<line class="i-line" x1="102" y1="73" x2="178" y2="73"/>
+<circle class="i-acc" cx="110" cy="83" r="3"/><rect class="i-mut" x="118" y="81" width="28" height="4" rx="2"/><rect class="i-bar" x="158" y="81" width="18" height="4" rx="2"/>
+<line class="i-line" x1="102" y1="92" x2="178" y2="92"/>
+<circle class="i-warm" cx="110" cy="102" r="3"/><rect class="i-mut" x="118" y="100" width="36" height="4" rx="2"/><rect class="i-bar" x="158" y="100" width="18" height="4" rx="2"/>
+<line class="i-line" x1="102" y1="111" x2="178" y2="111"/>
+<circle class="i-acc" cx="110" cy="121" r="3"/><rect class="i-mut" x="118" y="119" width="30" height="4" rx="2"/><rect class="i-bar" x="158" y="119" width="18" height="4" rx="2"/>
+</g>
+</svg></figure>
+      <div>
+        <span class="date">Jul 2024 – Feb 2025</span>
+        <h2>Junior Data Analyst</h2>
+        <p class="org">Nakala Analytics · Nairobi</p>
+        <ul style="margin-top:12px">
+          <li>Cleaned and validated customer loan data in Excel and SQL.</li>
+          <li>Produced monthly loan-portfolio reports on default trends by region and product.</li>
+          <li>Automated recurring Excel reports with Power Query and macros.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="card role">
+      <figure class="role-media"><svg class="ill" viewBox="0 0 200 150" role="img" aria-label="Illustration of a spreadsheet weekly summary report">
+<rect class="i-bg" width="200" height="150"/>
+<rect class="i-card" x="12" y="12" width="176" height="126" rx="10"/>
+<rect class="i-acc" x="22" y="22" width="8" height="6" rx="1.5"/><rect class="i-mut" x="34" y="23" width="40" height="4" rx="2"/>
+<rect class="i-soft" x="22" y="34" width="30" height="14" rx="2"/>
+<rect class="i-soft" x="54" y="34" width="30" height="14" rx="2"/>
+<rect class="i-soft" x="86" y="34" width="30" height="14" rx="2"/>
+<rect class="i-soft" x="118" y="34" width="30" height="14" rx="2"/>
+<rect class="i-soft" x="150" y="34" width="30" height="14" rx="2"/>
+<rect class="i-bg" x="22" y="50" width="30" height="14" rx="2"/>
+<rect class="i-bar" x="26" y="55" width="18" height="4" rx="2"/>
+<rect class="i-bg" x="54" y="50" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="58" y="55" width="10" height="4" rx="2"/>
+<rect class="i-bg" x="86" y="50" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="90" y="55" width="18" height="4" rx="2"/>
+<rect class="i-bg" x="118" y="50" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="122" y="55" width="16" height="4" rx="2"/>
+<rect class="i-bg" x="150" y="50" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="154" y="55" width="14" height="4" rx="2"/>
+<rect class="i-bg" x="22" y="66" width="30" height="14" rx="2"/>
+<rect class="i-bar" x="26" y="71" width="18" height="4" rx="2"/>
+<rect class="i-bg" x="54" y="66" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="58" y="71" width="18" height="4" rx="2"/>
+<rect class="i-bg" x="86" y="66" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="90" y="71" width="16" height="4" rx="2"/>
+<rect class="i-bg" x="118" y="66" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="122" y="71" width="14" height="4" rx="2"/>
+<rect class="i-bg" x="150" y="66" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="154" y="71" width="20" height="4" rx="2"/>
+<rect class="i-bg" x="22" y="82" width="30" height="14" rx="2"/>
+<rect class="i-bar" x="26" y="87" width="18" height="4" rx="2"/>
+<rect class="i-bg" x="54" y="82" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="58" y="87" width="16" height="4" rx="2"/>
+<rect class="i-bg" x="86" y="82" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="90" y="87" width="14" height="4" rx="2"/>
+<rect class="i-bg" x="118" y="82" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="122" y="87" width="20" height="4" rx="2"/>
+<rect class="i-bg" x="150" y="82" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="154" y="87" width="10" height="4" rx="2"/>
+<rect class="i-bg" x="22" y="98" width="30" height="14" rx="2"/>
+<rect class="i-bar" x="26" y="103" width="18" height="4" rx="2"/>
+<rect class="i-bg" x="54" y="98" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="58" y="103" width="14" height="4" rx="2"/>
+<rect class="i-bg" x="86" y="98" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="90" y="103" width="20" height="4" rx="2"/>
+<rect class="i-bg" x="118" y="98" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="122" y="103" width="10" height="4" rx="2"/>
+<rect class="i-bg" x="150" y="98" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="154" y="103" width="18" height="4" rx="2"/>
+<rect class="i-bg" x="22" y="114" width="30" height="14" rx="2"/>
+<rect class="i-bar" x="26" y="119" width="18" height="4" rx="2"/>
+<rect class="i-bg" x="54" y="114" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="58" y="119" width="20" height="4" rx="2"/>
+<rect class="i-bg" x="86" y="114" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="90" y="119" width="10" height="4" rx="2"/>
+<rect class="i-bg" x="118" y="114" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="122" y="119" width="18" height="4" rx="2"/>
+<rect class="i-bg" x="150" y="114" width="30" height="14" rx="2"/>
+<rect class="i-mut" x="154" y="119" width="16" height="4" rx="2"/>
+<rect fill="none" stroke="var(--accent)" stroke-width="2" x="117" y="65" width="32" height="18" rx="3"/>
+<rect class="i-acc" x="22" y="130" width="62" height="3" rx="1.5"/>
+</svg></figure>
+      <div>
+        <span class="date">Jan 2024 – May 2024</span>
+        <h2>Data Entry &amp; Reporting Intern</h2>
+        <p class="org">GeoPolls · Nairobi</p>
+        <ul style="margin-top:12px">
+          <li>Maintained records and produced weekly summary reports in Excel.</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="subhead">Education</p>
+    <section class="card role">
+      <figure class="role-media"><img src="open-university-kenya.jpg" alt="Open University of Kenya building" loading="lazy"></figure>
+      <div>
+        <span class="date now">In progress</span>
+        <h2>BSc Data Science</h2>
+        <p class="org">Open University of Kenya</p>
+        <ul style="margin-top:12px">
+          <li>Coursework: probability, regression analysis, data mining and database systems.</li>
+        </ul>
+      </div>
+    </section>
+
+    <a class="next" href="#skills" data-page="skills"><span>Next page</span><b>Skills →</b></a>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="page" id="page-skills" data-name="skills" hidden>
+    <div class="page-head">
+      <span class="label">Toolkit</span>
+      <h1>Skills</h1>
+      <p>The tools I use every day to collect, clean, analyse and present data.</p>
+    </div>
+    <div class="skills">
+      <section class="card skill"><h2>Data querying</h2><ul class="chips"><li>PostgreSQL</li><li>MySQL</li><li>SQL Server</li><li>SQLite</li><li>CTEs</li><li>Window functions</li></ul></section>
+      <section class="card skill"><h2>Programming</h2><ul class="chips"><li>Python</li><li>pandas</li><li>NumPy</li><li>scikit-learn</li><li>Matplotlib</li><li>Seaborn</li><li>Basic R</li></ul></section>
+      <section class="card skill"><h2>Visualisation &amp; BI</h2><ul class="chips"><li>Power BI</li><li>DAX</li><li>Power Query</li><li>Tableau</li><li>Looker Studio</li></ul></section>
+      <section class="card skill"><h2>Spreadsheets</h2><ul class="chips"><li>Advanced Excel</li><li>Pivot tables</li><li>XLOOKUP</li><li>INDEX/MATCH</li><li>Macros</li><li>Google Sheets</li></ul></section>
+      <section class="card skill"><h2>Statistics</h2><ul class="chips"><li>Descriptive stats</li><li>A/B testing</li><li>Regression</li><li>Classification</li><li>Forecasting</li></ul></section>
+      <section class="card skill"><h2>Ways of working</h2><ul class="chips"><li>Data cleaning &amp; ETL</li><li>KPI design</li><li>Git</li><li>Jira</li><li>Stakeholder reporting</li></ul></section>
+    </div>
+    <a class="next" href="#contact" data-page="contact"><span>Next page</span><b>Contact →</b></a>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="page" id="page-contact" data-name="contact" hidden>
+    <div class="page-head">
+      <span class="label">Contact</span>
+      <h1>Let's work together</h1>
+      <p>Tap Copy to save my email or phone number.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="lines">
+        <div class="line"><div><small>Email</small><span class="val" id="v-email">obongoisrael45@gmail.com</span></div><button class="copy" id="c-email" data-target="v-email">Copy</button></div>
+        <div class="line"><div><small>Phone / WhatsApp</small><span class="val num" id="v-phone">+254 714 276 075</span></div><button class="copy" id="c-phone" data-target="v-phone">Copy</button></div>
+        <div class="line"><div><small>GitHub</small><a class="val" href="https://github.com/obongoisrael" target="_blank" rel="noopener">github.com/obongoisrael</a></div></div>
+      </div>
+      <section class="card avail">
+        <span class="label">Availability</span>
+        <h2 style="font-size:19px">Open to new roles</h2>
+        <p>Data analyst roles, contracts and freelance projects. Remote, hybrid or on-site in Nairobi.</p>
+        <ul class="chips"><li>Full-time</li><li>Contract</li><li>Freelance</li><li>Remote</li></ul>
+      </section>
+    </div>
+    <a class="next" href="#home" data-page="home"><span>Back to start</span><b>Home →</b></a>
+    <footer>© 2026 Israel Omondi Obongo · Nairobi, Kenya</footer>
+  </div>
+</main>
+
+<nav class="tabbar" aria-label="Pages">
+  <ul>
+    <li><a href="#home" data-page="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home</a></li>
+    <li><a href="#projects" data-page="projects"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Projects</a></li>
+    <li><a href="#experience" data-page="experience"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Experience</a></li>
+    <li><a href="#skills" data-page="skills"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg>Skills</a></li>
+    <li><a href="#contact" data-page="contact"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Contact</a></li>
+  </ul>
+</nav>
+
+<script>
+(function () {
+  var pages = ['home', 'projects', 'experience', 'skills', 'contact'];
+  var titles = { home: 'Israel Omondi Obongo', projects: 'Projects', experience: 'Experience', skills: 'Skills', contact: 'Contact' };
+
+  function show(name, push) {
+    if (pages.indexOf(name) === -1) name = 'home';
+    pages.forEach(function (p) { document.getElementById('page-' + p).hidden = p !== name; });
+    document.querySelectorAll('[data-page]').forEach(function (a) {
+      if (a.closest('.top-tabs') || a.closest('.tabbar')) {
+        if (a.dataset.page === name) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+      }
+    });
+    document.title = name === 'home' ? titles.home : titles[name] + ' · Israel Obongo';
+    if (push) { try { history.replaceState(null, '', '#' + name); } catch (e) {} }
+    window.scrollTo(0, 0);
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[data-page]');
+    if (!a) return;
+    e.preventDefault();
+    show(a.dataset.page, true);
+  });
+  window.addEventListener('hashchange', function () { show(location.hash.slice(1), false); });
+  show((location.hash || '#home').slice(1), false);
+
+  document.querySelectorAll('.copy').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.target);
+      var done = function () { btn.textContent = 'Copied'; btn.classList.add('done'); setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1600); };
+      var select = function () { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; };
+      try { navigator.clipboard.writeText(el.textContent).then(done, select); } catch (e) { select(); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
